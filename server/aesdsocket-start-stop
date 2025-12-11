@@ -1,0 +1,24 @@
+#!/bin/sh
+
+case "$1" in
+    start)
+        echo "Starting aesdsocket"
+        # -S: Start
+        # -n: Name of the process (to prevent multiple instances)
+        # -a: Absolute path to the executable
+        # -- -d: Arguments passed to the executable (daemon mode)
+        start-stop-daemon -S -n aesdsocket -a /usr/bin/aesdsocket -- -d
+        ;;
+    stop)
+        echo "Stopping aesdsocket"
+        # -K: Kill (stops the process)
+        # -n: Name of the process to find
+        # This sends SIGTERM by default, which your C code handles to delete the tmp file
+        start-stop-daemon -K -n aesdsocket
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+esac
+
+exit 0
